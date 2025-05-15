@@ -1,6 +1,7 @@
 ARDUINO_QUIET ?= 1	# do not show config
 D_DATE_ ?= $(shell date "+%Y.%m.%d")
 
+# 2025 - added some defaults and dropped some examples etc. by Gilhad for his customised use
 ########################################################################
 #
 # Makefile for compiling Arduino sketches from command line
@@ -285,7 +286,6 @@ ifndef TARGET
     space := " "
     space += 
     TARGET = $(notdir $(subst $(space),_,$(CURDIR)))
-#    $(info TARGET[$(TARGET)] CURDIR[$(CURDIR)] strip[$(strip $(CURDIR))] subst[$(subst $(space),_,$(strip $(CURDIR)))] notdir[$(notdir $(subst $(space),_,$(strip $(CURDIR))))])
 endif
 
 ########################################################################
@@ -1381,39 +1381,39 @@ $(call show_separator)
 # library sources
 $(OBJDIR)/libs/%.c.o: $(ARDUINO_LIB_PATH)/%.c
 	@$(MKDIR) $(dir $@)
-	$(CC) -MMD -c $(CPPFLAGS) $(CFLAGS) $< -o $@ 
+	$(CC) -MMD -c $(CPPFLAGS) $(CFLAGS) $< -o $@
 
 $(OBJDIR)/libs/%.cpp.o: $(ARDUINO_LIB_PATH)/%.cpp
 	@$(MKDIR) $(dir $@)
-	$(CXX) -MMD -c $(CPPFLAGS) $(CXXFLAGS) $< -o $@ 
+	$(CXX) -MMD -c $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 $(OBJDIR)/libs/%.S.o: $(ARDUINO_LIB_PATH)/%.S
 	@$(MKDIR) $(dir $@)
-	$(CC) -MMD -c $(CPPFLAGS) $(ASFLAGS) $< -o $@ 
+	$(CC) -MMD -c $(CPPFLAGS) $(ASFLAGS) $< -o $@
 
 $(OBJDIR)/platformlibs/%.c.o: $(ARDUINO_PLATFORM_LIB_PATH)/%.c
 	@$(MKDIR) $(dir $@)
-	$(CC) -MMD -c $(CPPFLAGS) $(CFLAGS) $< -o $@ 
+	$(CC) -MMD -c $(CPPFLAGS) $(CFLAGS) $< -o $@
 
 $(OBJDIR)/platformlibs/%.cpp.o: $(ARDUINO_PLATFORM_LIB_PATH)/%.cpp
 	@$(MKDIR) $(dir $@)
-	$(CXX) -MMD -c $(CPPFLAGS) $(CXXFLAGS) $< -o $@ 
+	$(CXX) -MMD -c $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 $(OBJDIR)/platformlibs/%.S.o: $(ARDUINO_PLATFORM_LIB_PATH)/%.S
 	@$(MKDIR) $(dir $@)
-	$(CC) -MMD -c $(CPPFLAGS) $(ASFLAGS) $< -o $@ 
+	$(CC) -MMD -c $(CPPFLAGS) $(ASFLAGS) $< -o $@
 
 $(OBJDIR)/userlibs/%.cpp.o: $(USER_LIB_PATH)/%.cpp
 	@$(MKDIR) $(dir $@)
-	$(CXX) -MMD -c $(CPPFLAGS) $(CXXFLAGS) $< -o $@ 
+	$(CXX) -MMD -c $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 $(OBJDIR)/userlibs/%.c.o: $(USER_LIB_PATH)/%.c
 	@$(MKDIR) $(dir $@)
-	$(CC) -MMD -c $(CPPFLAGS) $(CFLAGS) $< -o $@ 
+	$(CC) -MMD -c $(CPPFLAGS) $(CFLAGS) $< -o $@
 
 $(OBJDIR)/userlibs/%.S.o: $(USER_LIB_PATH)/%.S
 	@$(MKDIR) $(dir $@)
-	$(CC) -MMD -c $(CPPFLAGS) $(ASFLAGS) $< -o $@ 
+	$(CC) -MMD -c $(CPPFLAGS) $(ASFLAGS) $< -o $@
 
 ifdef COMMON_DEPS
     COMMON_DEPS := $(COMMON_DEPS) $(MAKEFILE_LIST)
@@ -1424,85 +1424,85 @@ endif
 # normal local sources
 $(OBJDIR)/%.c.o: %.c $(COMMON_DEPS) | $(OBJDIR)
 	@$(MKDIR) $(dir $@)
-	$(CC) -MMD -c $(CPPFLAGS) $(CFLAGS) $< -o $@ 
+	$(CC) -MMD -c $(CPPFLAGS) $(CFLAGS) $< -o $@
 
 $(OBJDIR)/%.cc.o: %.cc $(COMMON_DEPS) | $(OBJDIR)
 	@$(MKDIR) $(dir $@)
-	$(CXX) -MMD -c $(CPPFLAGS) $(CXXFLAGS) $< -o $@ 
+	$(CXX) -MMD -c $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 $(OBJDIR)/%.cpp.o: %.cpp $(COMMON_DEPS) | $(OBJDIR)
 	@$(MKDIR) $(dir $@)
-	$(CXX) -MMD -c $(CPPFLAGS) $(CXXFLAGS) $< -o $@ 
+	$(CXX) -MMD -c $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 $(OBJDIR)/%.S.o: %.S $(COMMON_DEPS) | $(OBJDIR)
 	@$(MKDIR) $(dir $@)
-	$(CC) -MMD -c $(CPPFLAGS) $(ASFLAGS) $< -o $@ 
+	$(CC) -MMD -c $(CPPFLAGS) $(ASFLAGS) $< -o $@
 
 $(OBJDIR)/%.s.o: %.s $(COMMON_DEPS) | $(OBJDIR)
 	@$(MKDIR) $(dir $@)
-	$(CC) -c $(CPPFLAGS) $(ASFLAGS) $< -o $@ 
+	$(CC) -c $(CPPFLAGS) $(ASFLAGS) $< -o $@
 
 # the pde -> o file
 $(OBJDIR)/%.pde.o: %.pde $(COMMON_DEPS) | $(OBJDIR)
 	@$(MKDIR) $(dir $@)
-	$(CXX) -x c++ -include $(ARDUINO_HEADER) -MMD -c $(CPPFLAGS) $(CXXFLAGS) $< -o $@ 
+	$(CXX) -x c++ -include $(ARDUINO_HEADER) -MMD -c $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 # the ino -> o file
 $(OBJDIR)/%.ino.o: %.ino $(COMMON_DEPS) | $(OBJDIR)
 	@$(MKDIR) $(dir $@)
-	$(CXX) -x c++ -include $(ARDUINO_HEADER) -MMD -c $(CPPFLAGS) $(CXXFLAGS) $< -o $@ 
+	$(CXX) -x c++ -include $(ARDUINO_HEADER) -MMD -c $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 # generated assembly
 $(OBJDIR)/%.s: %.pde $(COMMON_DEPS) | $(OBJDIR)
 	@$(MKDIR) $(dir $@)
-	$(CXX) -x c++ -include $(ARDUINO_HEADER) -MMD -S -fverbose-asm $(CPPFLAGS) $(CXXFLAGS) $< -o $@ 
+	$(CXX) -x c++ -include $(ARDUINO_HEADER) -MMD -S -fverbose-asm $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 $(OBJDIR)/%.s: %.ino $(COMMON_DEPS) | $(OBJDIR)
 	@$(MKDIR) $(dir $@)
-	$(CXX) -x c++ -include $(ARDUINO_HEADER) -MMD -S -fverbose-asm $(CPPFLAGS) $(CXXFLAGS) $< -o $@ 
+	$(CXX) -x c++ -include $(ARDUINO_HEADER) -MMD -S -fverbose-asm $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 $(OBJDIR)/%.s: %.cpp $(COMMON_DEPS) | $(OBJDIR)
 	@$(MKDIR) $(dir $@)
-	$(CXX) -x c++ -MMD -S -fverbose-asm $(CPPFLAGS) $(CXXFLAGS) $< -o $@ 
+	$(CXX) -x c++ -MMD -S -fverbose-asm $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 $(OBJDIR)/%.s: %.c $(COMMON_DEPS) | $(OBJDIR)
 	@$(MKDIR) $(dir $@)
-	$(CXX) -x c -MMD -S -fverbose-asm $(CPPFLAGS) $(CXXFLAGS) $< -o $@ 
+	$(CXX) -x c -MMD -S -fverbose-asm $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 # core files
 $(OBJDIR)/core/%.c.o: $(ARDUINO_CORE_PATH)/%.c $(COMMON_DEPS) | $(OBJDIR)
 	@$(MKDIR) $(dir $@)
-	$(CC) -MMD -c $(CPPFLAGS) $(CFLAGS) $< -o $@ 
+	$(CC) -MMD -c $(CPPFLAGS) $(CFLAGS) $< -o $@
 
 $(OBJDIR)/core/%.cpp.o: $(ARDUINO_CORE_PATH)/%.cpp $(COMMON_DEPS) | $(OBJDIR)
 	@$(MKDIR) $(dir $@)
-	$(CXX) -MMD -c $(CPPFLAGS) $(CXXFLAGS) $< -o $@ 
+	$(CXX) -MMD -c $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 $(OBJDIR)/core/%.S.o: $(ARDUINO_CORE_PATH)/%.S $(COMMON_DEPS) | $(OBJDIR)
 	@$(MKDIR) $(dir $@)
-	$(CC) -MMD -c $(CPPFLAGS) $(ASFLAGS) $< -o $@ 
+	$(CC) -MMD -c $(CPPFLAGS) $(ASFLAGS) $< -o $@
 
 # sam core files
 $(OBJDIR)/core/%.c.o: $(SAM_CORE_PATH)/%.c $(COMMON_DEPS) | $(OBJDIR)
 	@$(MKDIR) $(dir $@)
-	$(CC) -MMD -c $(CPPFLAGS) $(CFLAGS) $< -o $@ 
+	$(CC) -MMD -c $(CPPFLAGS) $(CFLAGS) $< -o $@
 
 $(OBJDIR)/core/%.cpp.o: $(SAM_CORE_PATH)/%.cpp $(COMMON_DEPS) | $(OBJDIR)
 	@$(MKDIR) $(dir $@)
-	$(CXX) -MMD -c $(CPPFLAGS) $(CXXFLAGS) $< -o $@ 
+	$(CXX) -MMD -c $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 $(OBJDIR)/core/%.S.o: $(SAM_CORE_PATH)/%.S $(COMMON_DEPS) | $(OBJDIR)
 	@$(MKDIR) $(dir $@)
-	$(CC) -MMD -c $(CPPFLAGS) $(ASFLAGS) $< -o $@ 
+	$(CC) -MMD -c $(CPPFLAGS) $(ASFLAGS) $< -o $@
 
 # due specific sources from sam core as doesn't core doesn't have SystemInit startup file
 $(OBJDIR)/core/%.c.o: $(SAM_LIBSAM_PATH)/source/%.c $(COMMON_DEPS) | $(OBJDIR)
 	@$(MKDIR) $(dir $@)
-	$(CC) -MMD -c $(CPPFLAGS) $(CFLAGS) $< -o $@ 
+	$(CC) -MMD -c $(CPPFLAGS) $(CFLAGS) $< -o $@
 
 $(OBJDIR)/core/%.c.o: $(SAM_SYSTEM_PATH)/source/%.c $(COMMON_DEPS) | $(OBJDIR)
 	@$(MKDIR) $(dir $@)
-	$(CC) -MMD -c $(CPPFLAGS) $(CFLAGS) $< -o $@ 
+	$(CC) -MMD -c $(CPPFLAGS) $(CFLAGS) $< -o $@
 
 # various object conversions
 $(OBJDIR)/%.bin: $(OBJDIR)/%.elf $(COMMON_DEPS)
