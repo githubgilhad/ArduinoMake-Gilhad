@@ -1,6 +1,6 @@
 ARDMK_DIR:=$(dir $(realpath $(lastword $(MAKEFILE_LIST))))
 MONITOR_CMD ?= picocom
-MONITOR_PARAMS ?=  --flow n --noreset --quiet
+MONITOR_PARAMS ?=  --flow n --noreset --quiet --send-cmd "slowcat"
 ISP_PROG ?= usbasp
 include  $(dir $(realpath $(lastword $(MAKEFILE_LIST))))Arduino.mk
 
